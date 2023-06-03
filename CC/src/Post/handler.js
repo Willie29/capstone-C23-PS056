@@ -1,6 +1,5 @@
 const { nanoid } = require('nanoid');
 const connection = require('../dbConnect')
-// const post = require('./post');
 
 
 const addPost = (request, h) => {
