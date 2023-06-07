@@ -8,12 +8,12 @@ const generalRoutes = [
     },
     {
         method: 'GET',
-        path: '/byvote',
+        path: '/post/byvote',
         handler: getPostbyVote,
     },
     {
         method: 'GET',
-        path: '/bydate',
+        path: '/post/bydate',
         handler: getPostbyDate,
     },
     {
@@ -23,7 +23,7 @@ const generalRoutes = [
     },
     {
         method: 'DELETE',
-        path: '/post',
+        path: '/post/{postId}',
         handler: deletePost,
     },
 ];

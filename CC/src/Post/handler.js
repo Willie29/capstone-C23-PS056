@@ -1,65 +1,138 @@
 const { nanoid } = require('nanoid');
 const dayjs = require('dayjs');
-const connection = require('../dbConnect')
+const connection = require('../dbConnect');
+const imgUpload = require('./imgUp')
 
+
+// const addPost = async (request, h) => {
+//   const { category, caption } = request.payload;
+
+//   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
+//     const response = h.response({
+//       status: 'fail',
+//       message: 'category or caption can\'t be empty',
+//     });
+//     response.code(400);
+//     return response;
+//   }
+
+//   const postId = "post" + nanoid(10);
+//   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
+//   const vote = 12;
+
+//   let imageUrl = '';
+
+//   if (request.payload.attachment) {
+//     const file = request.payload.attachment;
+
+//     try {
+//       imageUrl = await imgUpload.uploadToGcs(file);
+//     } catch (error) {
+//       console.error('Error uploading image:', error);
+//       return h.response({ message: 'Error uploading image' }).code(500);
+//     }
+//   }
+
+//   const newPost = {
+//     postId,
+//     category,
+//     caption,
+//     image_url: imageUrl,
+//     createdAt,
+//     vote,
+//   };
+
+//   const query = 'INSERT INTO posts SET ?';
+//   connection.query(query, newPost, (error, results) => {
+//     if (error) {
+//       console.error('Error adding post:', error);
+//       return h.response({ message: 'Error adding post' }).code(500);
+//     }
+//   });
+
+//   console.log('Post added successfully');
+//   return h.response({ message: 'Post added successfully' }).code(200);
+// };
+
+
+// const getPostbyVote = (request, h) => {
+//   const query = 'SELECT * from posts ORDER BY vote DESC';
+//   return new Promise((resolve, reject) => {
+
+//     connection.query(query, (error, results) => {
+
+//       if (error) {
+//         console.error('Error retrieving posts by vote:', error);
+//         reject(h.response({ message: 'Error retrieving posts by vote' }).code(500));
+//       } 
+       
+//       console.log('Posts retrieved successfully');
+//       resolve(h.response(results).code(200));
+      
+//     });
+
+//   });
+// };
 
 const addPost = (request, h) => {
-    const { title, caption } = request.payload;
+  const { category, caption } = request.payload;
 
-    if (!title || !caption || title.trim() === '' || caption.trim() === '') {
-      const response = h.response({
-        status: 'fail',
-        message: 'Title or caption can\'t be empty',
-      });
-      response.code(400);
-      return response;
-    };
-
-    const postId = "post" + nanoid(16);
-    const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    const vote = 12;
-
-    const newPost = {
-        postId,
-        title,
-        caption,
-        image_url,
-        createdAt,
-        vote
-    }
-
-    const query = 'INSERT INTO posts SET ?';
-    connection.query(query, newPost, (error, results) => {
-      if (error) {
-        console.error('Error adding post:', error);
-        return h.response({ message: 'Error adding post' }).code(500);
-      }
+  if (!category || !caption || category.trim() === '' || caption.trim() === '') {
+    const response = h.response({
+      status: 'fail',
+      message: 'category or caption can\'t be empty',
     });
-    console.log('Post added successfully');
-    return h.response({ message: 'Post added successfully' }).code(200);
+    response.code(400);
+    return response;
+  };
+
+  const postId = "post" + nanoid(16);
+  const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
+  let image_url = category + createdAt + ".com"
+  image_url = image_url.trim()
+  const vote = 11;
+  console.log(image_url)
+  const newPost = {
+      postId,
+      category,
+      caption,
+      image_url,
+      createdAt,
+      vote
+  }
+
+  const query = 'INSERT INTO posts SET ?';
+  connection.query(query, newPost, (error, results) => {
+    if (error) {
+      console.error('Error adding post:', error);
+      return h.response({ message: 'Error adding post' }).code(500);
+    }
+  });
+  console.log('Post added successfully');
+  return h.response({ message: 'Post added successfully' }).code(200);
 };
 
 const getPostbyVote = (request, h) => {
-  const query = 'SELECT * from posts ORDER BY vote DESC';
-  return new Promise((resolve, reject) => {
+const query = 'SELECT * from posts ORDER BY vote DESC';
+return new Promise((resolve, reject) => {
 
-    connection.query(query, (error, results) => {
+  connection.query(query, (error, results) => {
 
-      if (error) {
-        console.error('Error retrieving posts by vote:', error);
-        reject(h.response({ message: 'Error retrieving posts by vote' }).code(500));
-      } 
-       
-      console.log('Posts retrieved successfully');
-      resolve(h.response(results).code(200));
-      
-    });
-
+    if (error) {
+      console.error('Error retrieving posts by vote:', error);
+      reject(h.response({ message: 'Error retrieving posts by vote' }).code(500));
+    } 
+     
+    console.log('Posts retrieved successfully');
+    resolve(h.response(results).code(200));
+    
   });
+
+});
 };
 
 const getPostbyDate = (request, h) => {
-  const query = 'SELECT * from posts ORDER BY updatedAt DESC';
+  const query = 'SELECT * from posts ORDER BY createdAt DESC';
   return new Promise((resolve, reject) => {
 
     connection.query(query, (error, results) => {
@@ -100,7 +173,7 @@ const getPostbyId = (request, h) => {
 
 const deletePost = (request, h) => {
   // const { postId } = request.params; // buat kalau udah bisa tes appnya
-  const { postId } = request.payload;
+  const { postId } = request.params;
   const query = "DELETE FROM posts WHERE `postId` = ?"
 
   connection.query(query, postId, (error, results) => {
