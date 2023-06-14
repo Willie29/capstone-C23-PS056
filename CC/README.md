@@ -33,10 +33,9 @@
 
 `POST`
 
-> | key                   | type     | data type | description |
-> | --------------------- | -------- | --------- | ----------- |
-> | category                  | required | string       | N/A         |
-> | caption                 | required | string    | N/A         |
+##### Parameters
+
+`user_id, post_id`
 
  </details>
 
