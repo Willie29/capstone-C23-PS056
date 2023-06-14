@@ -93,11 +93,11 @@ status: `200 OK`
 </details>
 
 <details>
- <summary>Get Post by Date | <code>GET</code> <code><b>/postbydate</b></code></summary>
+ <summary>Get Post by Date | <code>GET</code> <code><b>/post/bydate</b></code></summary>
 
 ##### URL
 
-`/postbydate`
+`/post/bydate`
 
 ##### Method
 
