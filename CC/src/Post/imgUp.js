@@ -1,48 +1,53 @@
-// 'use strict'
-// const {Storage} = require('@google-cloud/storage')
-// const dateFormat = require('dateformat')
-// const path = require('path');
+'use strict';
 
-// const pathKey = path.resolve('./serviceaccountkey.json')
+const { Storage } = require('@google-cloud/storage');
+const path = require('path');
 
-// const gcs = new Storage({
-//     projectId: 'project_id_Anda',
-//     keyFilename: pathKey
-// })
+const pathKey = path.resolve('../../serviceaccountkey.json');
 
-// const bucketName = 'nama_GCS_bucket_Anda'
-// const bucket = gcs.bucket(bucketName)
+const gcs = new Storage({
+  projectId: 'sorak-c23-ps056',
+  keyFilename: pathKey,
+});
 
-// function getPublicUrl(filename) {
-//     return 'https://storage.googleapis.com/' + bucketName + '/' + filename;
-// }
+const bucketName = 'sorak-bucket';
+const bucket = gcs.bucket(bucketName);
 
-// let ImgUpload = {}
+function getPublicUrl(filename) {
+  return 'https://storage.googleapis.com/' + bucketName + '/' + filename;
+}
 
-// ImgUpload.uploadToGcs = (req, res, next) => {
-//     if (!req.file) return next()
+let ImgUpload = {};
 
-//     const gcsname = dateFormat(new Date(), "yyyymmdd-HHMMss")
-//     const file = bucket.file(gcsname)
+ImgUpload.uploadToGcs = (req, res, next) => {
+  if (!req.file) return next();
 
-//     const stream = file.createWriteStream({
-//         metadata: {
-//             contentType: req.file.mimetype
-//         }
-//     })
+  import('dateformat').then((dateFormat) => {
+    const gcsname = dateFormat(new Date(), 'yyyymmdd-HHMMss');
+    const file = bucket.file(gcsname);
 
-//     stream.on('error', (err) => {
-//         req.file.cloudStorageError = err
-//         next(err)
-//     })
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
+    });
 
-//     stream.on('finish', () => {
-//         req.file.cloudStorageObject = gcsname
-//         req.file.cloudStoragePublicUrl = getPublicUrl(gcsname)
-//         next()
-//     })
+    stream.on('error', (err) => {
+      req.file.cloudStorageError = err;
+      next(err);
+    });
 
-//     stream.end(req.file.buffer)
-// }
+    stream.on('finish', () => {
+      req.file.cloudStorageObject = gcsname;
+      req.file.cloudStoragePublicUrl = getPublicUrl(gcsname);
+      next();
+    });
 
-// module.exports = ImgUpload
+    stream.end(req.file.buffer);
+  }).catch((error) => {
+    console.error('Error importing dateformat:', error);
+    next(error);
+  });
+};
+
+module.exports = ImgUpload;

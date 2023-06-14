@@ -3,7 +3,7 @@ const dayjs = require('dayjs');
 const connection = require('../dbConnect');
 const imgUpload = require('./imgUp')
 
-
+// Post
 // const addPost = async (request, h) => {
 //   const { category, caption } = request.payload;
 
@@ -16,9 +16,9 @@ const imgUpload = require('./imgUp')
 //     return response;
 //   }
 
-//   const postId = "post" + nanoid(10);
+//   const post_id = "post" + nanoid(10);
 //   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
-//   const vote = 12;
+//   const vote = 0;
 
 //   let imageUrl = '';
 
@@ -34,12 +34,12 @@ const imgUpload = require('./imgUp')
 //   }
 
 //   const newPost = {
-//     postId,
+//     post_id,
 //     category,
 //     caption,
 //     image_url: imageUrl,
 //     createdAt,
-//     vote,
+//     vote, //likenya
 //   };
 
 //   const query = 'INSERT INTO posts SET ?';
@@ -55,27 +55,8 @@ const imgUpload = require('./imgUp')
 // };
 
 
-// const getPostbyVote = (request, h) => {
-//   const query = 'SELECT * from posts ORDER BY vote DESC';
-//   return new Promise((resolve, reject) => {
-
-//     connection.query(query, (error, results) => {
-
-//       if (error) {
-//         console.error('Error retrieving posts by vote:', error);
-//         reject(h.response({ message: 'Error retrieving posts by vote' }).code(500));
-//       } 
-       
-//       console.log('Posts retrieved successfully');
-//       resolve(h.response(results).code(200));
-      
-//     });
-
-//   });
-// };
-
 const addPost = (request, h) => {
-  const { category, caption } = request.payload;
+  const { user_id, category, caption, } = request.payload;
 
   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
     const response = h.response({
@@ -86,14 +67,13 @@ const addPost = (request, h) => {
     return response;
   };
 
-  const postId = "post" + nanoid(16);
+  const post_id = "post" + nanoid(10);
   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
   let image_url = category + createdAt + ".com"
-  image_url = image_url.trim()
-  const vote = 11;
-  console.log(image_url)
+  const vote = 0;
   const newPost = {
-      postId,
+      post_id,
+      user_id,
       category,
       caption,
       image_url,
@@ -112,6 +92,45 @@ const addPost = (request, h) => {
   return h.response({ message: 'Post added successfully' }).code(200);
 };
 
+// Vote
+const saveVote = (request, h) => {
+  const { user_id, post_id } = request.payload;
+  const vote_id = "vote" + nanoid(10);
+  const values = [vote_id, user_id, post_id];
+  const insertQuery = `INSERT INTO votes (vote_id, user_id, post_id) VALUES (?, ?, ?)`;
+  const countQuery = `SELECT COUNT(*) AS voteCount FROM votes WHERE post_id = ?`;
+  const updateQuery = `UPDATE posts SET vote = ? WHERE post_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    connection.query(insertQuery, values, (error, results) => {
+      if (error) {
+        console.error('Error on voting:', error);
+        reject(h.response({ message: 'Error on voting' }).code(500));
+      } else {
+        console.log('You\'ve voted for this post');
+        connection.query(countQuery, [post_id], (error, countResult) => {
+          if (error) {
+            console.error('Error counting votes:', error);
+            reject(h.response({ message: 'Error counting votes' }).code(500));
+          } else {
+            const voteCount = countResult[0].voteCount;
+            connection.query(updateQuery, [voteCount, post_id], (error, updateResult) => {
+              if (error) {
+                console.error('Error updating vote count:', error);
+                reject(h.response({ message: 'Error updating vote count' }).code(500));
+              } else {
+                resolve(h.response({ message: 'Post has been voted by user' }).code(200));
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+};
+
+
+// Get post
 const getPostbyVote = (request, h) => {
 const query = 'SELECT * from posts ORDER BY vote DESC';
 return new Promise((resolve, reject) => {
@@ -138,7 +157,7 @@ const getPostbyDate = (request, h) => {
     connection.query(query, (error, results) => {
 
       if (error) {
-        console.error('Error retrieving posts by vote:', error);
+        console.error('Error retrieving posts by date:', error);
         reject(h.response({ message: 'Error retrieving posts by vote' }).code(500));
       } 
        
@@ -150,11 +169,12 @@ const getPostbyDate = (request, h) => {
 }
 
 const getPostbyId = (request, h) => {
-  const { postId } = request.params;
+  const { post_id } = request.params;
 
-  const query = 'SELECT * FROM posts WHERE postId = ?';
+  const query = 'SELECT * FROM posts WHERE post_id = ?';
+
   return new Promise((resolve, reject) => {
-    connection.query(query, [postId], (error, results) => {
+    connection.query(query, [post_id], (error, results) => {
       if (error) {
         console.error('Error fetching post:', error);
         return reject(h.response({ message: 'Error fetching post' }).code(500));
@@ -171,12 +191,13 @@ const getPostbyId = (request, h) => {
   });
 }
 
+// Delete
 const deletePost = (request, h) => {
-  // const { postId } = request.params; // buat kalau udah bisa tes appnya
-  const { postId } = request.params;
-  const query = "DELETE FROM posts WHERE `postId` = ?"
+  // const { post_id } = request.params; // buat kalau udah bisa tes appnya
+  const { post_id } = request.params;
+  const query = "DELETE FROM posts WHERE `post_id` = ?"
 
-  connection.query(query, postId, (error, results) => {
+  connection.query(query, post_id, (error, results) => {
     if (error) {
       console.error('Error adding post:', error);
       return h.response({ message: 'Error on deleting a post' }).code(500);
@@ -186,4 +207,4 @@ const deletePost = (request, h) => {
   return h.response({ message: 'Post has been deleted' }).code(200);
 }
 
-module.exports = { addPost, getPostbyVote, getPostbyDate, deletePost, getPostbyId }
+module.exports = { addPost, getPostbyVote, getPostbyDate, deletePost, getPostbyId, saveVote }

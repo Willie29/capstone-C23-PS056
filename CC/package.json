@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
     "@hapi/hapi": "^21.3.2",
+    "dateformat": "^5.0.3",
     "dayjs": "^1.11.8",
     "mysql": "^2.18.1",
     "nanoid": "^3.3.6",

@@ -21,6 +21,7 @@ We're planning to make an application full with people's aspiration for the gove
 ### Cloud Computing
 - Creating API for the app
 - Create the database with MySQL for the app
+- Deploying app and model from ML
 
 #### 
 

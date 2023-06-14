@@ -1,10 +1,15 @@
-const { addPost, getPostbyVote, getPostbyDate, deletePost, getPostbyId } = require('./Post/handler')
+const { addPost, getPostbyVote, getPostbyDate, deletePost, getPostbyId, saveVote } = require('./Post/handler')
 
 const generalRoutes = [
     {
         method: 'POST',
         path: '/post',
         handler: addPost,
+    },
+    {
+        method: 'POST',
+        path: '/vote',
+        handler: saveVote,
     },
     {
         method: 'GET',
@@ -18,12 +23,12 @@ const generalRoutes = [
     },
     {
         method: 'GET',
-        path: '/post/{postId}',
+        path: '/post/{post_id}',
         handler: getPostbyId,
     },
     {
         method: 'DELETE',
-        path: '/post/{postId}',
+        path: '/post/{post_id}',
         handler: deletePost,
     },
 ];
