@@ -4,59 +4,8 @@ const connection = require('../dbConnect');
 const imgUpload = require('./imgUp')
 
 // Post
-// const addPost = async (request, h) => {
-//   const { category, caption } = request.payload;
-
-//   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
-//     const response = h.response({
-//       status: 'fail',
-//       message: 'category or caption can\'t be empty',
-//     });
-//     response.code(400);
-//     return response;
-//   }
-
-//   const post_id = "post" + nanoid(10);
-//   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
-//   const vote = 0;
-
-//   let imageUrl = '';
-
-//   if (request.payload.attachment) {
-//     const file = request.payload.attachment;
-
-//     try {
-//       imageUrl = await imgUpload.uploadToGcs(file);
-//     } catch (error) {
-//       console.error('Error uploading image:', error);
-//       return h.response({ message: 'Error uploading image' }).code(500);
-//     }
-//   }
-
-//   const newPost = {
-//     post_id,
-//     category,
-//     caption,
-//     image_url: imageUrl,
-//     createdAt,
-//     vote, //likenya
-//   };
-
-//   const query = 'INSERT INTO posts SET ?';
-//   connection.query(query, newPost, (error, results) => {
-//     if (error) {
-//       console.error('Error adding post:', error);
-//       return h.response({ message: 'Error adding post' }).code(500);
-//     }
-//   });
-
-//   console.log('Post added successfully');
-//   return h.response({ message: 'Post added successfully' }).code(200);
-// };
-
-
-const addPost = (request, h) => {
-  const { user_id, category, caption, } = request.payload;
+const addPost = async (request, h) => {
+  const { category, caption } = request.payload;
 
   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
     const response = h.response({
@@ -65,21 +14,33 @@ const addPost = (request, h) => {
     });
     response.code(400);
     return response;
-  };
+  }
 
   const post_id = "post" + nanoid(10);
   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
-  let image_url = category + createdAt + ".com"
   const vote = 0;
-  const newPost = {
-      post_id,
-      user_id,
-      category,
-      caption,
-      image_url,
-      createdAt,
-      vote
+
+  let imageUrl = '';
+
+  if (request.payload.attachment) {
+    const file = request.payload.attachment;
+
+    try {
+      imageUrl = await imgUpload.uploadToGcs(file);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return h.response({ message: 'Error uploading image' }).code(500);
+    }
   }
+
+  const newPost = {
+    post_id,
+    category,
+    caption,
+    image_url: imageUrl,
+    createdAt,
+    vote, //likenya
+  };
 
   const query = 'INSERT INTO posts SET ?';
   connection.query(query, newPost, (error, results) => {
@@ -88,9 +49,48 @@ const addPost = (request, h) => {
       return h.response({ message: 'Error adding post' }).code(500);
     }
   });
+
   console.log('Post added successfully');
   return h.response({ message: 'Post added successfully' }).code(200);
 };
+
+
+// const addPost = (request, h) => {
+//   const { user_id, category, caption, } = request.payload;
+
+//   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
+//     const response = h.response({
+//       status: 'fail',
+//       message: 'category or caption can\'t be empty',
+//     });
+//     response.code(400);
+//     return response;
+//   };
+
+//   const post_id = "post" + nanoid(10);
+//   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss');
+//   let image_url = category + createdAt + ".com"
+//   const vote = 0;
+//   const newPost = {
+//       post_id,
+//       user_id,
+//       category,
+//       caption,
+//       image_url,
+//       createdAt,
+//       vote
+//   }
+
+//   const query = 'INSERT INTO posts SET ?';
+//   connection.query(query, newPost, (error, results) => {
+//     if (error) {
+//       console.error('Error adding post:', error);
+//       return h.response({ message: 'Error adding post' }).code(500);
+//     }
+//   });
+//   console.log('Post added successfully');
+//   return h.response({ message: 'Post added successfully' }).code(200);
+// };
 
 // Vote
 const saveVote = (request, h) => {
