@@ -45,7 +45,7 @@ We're using MySQL 8.0 for the database and we named it "sorak_db" which include 
 ![Alt text](img/cloudSQL.png)
 
 ### <b>Authentication</b>
-we failed to build this
+We failed to build this.
 
 ### <b>Sorak - API</b>
 
@@ -110,34 +110,56 @@ we failed to build this
 
 status: `200 OK`
 
+#### App engine link
+
+https://backend-dot-sorak-c23-ps056.et.r.appspot.com/post/byvote
+
 ```json
 [
     {
-        "post_id": "postGAq8cQHTF6",
-        "user_id": "user01",
-        "category": "aspirasi",
-        "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
-        "createdAt": "2023-06-14T04:35:47.000Z",
+        "post_id": "post-lTQn3Tp6Y",
+        "user_id": "user04",
+        "category": "pengaduhan",
+        "caption": "Tolong putung rokok sudah memenuhi taman ini.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
+        "createdAt": "2023-06-16T03:24:06.000Z",
         "vote": 5
     },
     {
-        "post_id": "postiG-MsnM7eD",
-        "user_id": "user03",
+        "post_id": "postHasVt2yCd8",
+        "user_id": "user01",
         "category": "pengaduhan",
-        "caption": "Pohon tumbang penyebab banjir ini masih dibiarkan dan tidak ada tindakan dari pemerintah",
-        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112 ",
-        "createdAt": "2023-06-14T11:30:33.000Z",
+        "caption": "Pohon tumbang ini sudah 3 hari tidak ada tindak lanjut.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112",
+        "createdAt": "2023-06-16T03:21:12.000Z",
         "vote": 4
     },
     {
-        "post_id": "postleK3FuHcbY",
+        "post_id": "postqKkKNzcvG_",
         "user_id": "user02",
         "category": "pengaduhan",
-        "caption": "Ini jalan ga ada yang perbaikin udah 10 tahun",
-        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
-        "createdAt": "2023-06-14T11:27:16.000Z",
+        "caption": "jalan  ini rusak mulu",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032206",
+        "createdAt": "2023-06-16T03:22:06.000Z",
+        "vote": 3
+    },
+    {
+        "post_id": "postQtGAhtZfF_",
+        "user_id": "user03",
+        "category": "aspirasi",
+        "caption": "Flexing elit, mimpin sulit.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032330",
+        "createdAt": "2023-06-16T03:23:30.000Z",
         "vote": 2
+    },
+    {
+        "post_id": "postrNSYGudu88",
+        "user_id": "user03",
+        "category": "aspirasi",
+        "caption": "kalau ada yang ribet kenapa harus yang gampang. CHUAKS",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032233",
+        "createdAt": "2023-06-16T03:22:33.000Z",
+        "vote": 0
     }
 ]
 ```
@@ -163,34 +185,56 @@ status: `200 OK`
 
 status: `200 OK`
 
+#### App engine link
+
+https://backend-dot-sorak-c23-ps056.et.r.appspot.com/post/bydate
+
 ```json
 [
     {
-        "post_id": "postiG-MsnM7eD",
-        "user_id": "user03",
+        "post_id": "post-lTQn3Tp6Y",
+        "user_id": "user04",
         "category": "pengaduhan",
-        "caption": "Pohon tumbang penyebab banjir ini masih dibiarkan dan tidak ada tindakan dari pemerintah",
-        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112 ",
-        "createdAt": "2023-06-14T11:30:33.000Z",
-        "vote": 4
+        "caption": "Tolong putung rokok sudah memenuhi taman ini.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
+        "createdAt": "2023-06-16T03:24:06.000Z",
+        "vote": 5
     },
     {
-        "post_id": "postleK3FuHcbY",
-        "user_id": "user02",
-        "category": "pengaduhan",
-        "caption": "Ini jalan ga ada yang perbaikin udah 10 tahun",
-        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
-        "createdAt": "2023-06-14T11:27:16.000Z",
+        "post_id": "postQtGAhtZfF_",
+        "user_id": "user03",
+        "category": "aspirasi",
+        "caption": "Flexing elit, mimpin sulit.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032330",
+        "createdAt": "2023-06-16T03:23:30.000Z",
         "vote": 2
     },
     {
-        "post_id": "postGAq8cQHTF6",
-        "user_id": "user01",
+        "post_id": "postrNSYGudu88",
+        "user_id": "user03",
         "category": "aspirasi",
-        "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
-        "createdAt": "2023-06-14T04:35:47.000Z",
-        "vote": 5
+        "caption": "kalau ada yang ribet kenapa harus yang gampang. CHUAKS",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032233",
+        "createdAt": "2023-06-16T03:22:33.000Z",
+        "vote": 0
+    },
+    {
+        "post_id": "postqKkKNzcvG_",
+        "user_id": "user02",
+        "category": "pengaduhan",
+        "caption": "jalan  ini rusak mulu",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032206",
+        "createdAt": "2023-06-16T03:22:06.000Z",
+        "vote": 3
+    },
+    {
+        "post_id": "postHasVt2yCd8",
+        "user_id": "user01",
+        "category": "pengaduhan",
+        "caption": "Pohon tumbang ini sudah 3 hari tidak ada tindak lanjut.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112",
+        "createdAt": "2023-06-16T03:21:12.000Z",
+        "vote": 4
     }
 ]
 ```
@@ -216,15 +260,19 @@ status: `200 OK`
 
 status: `200 OK`
 
+#### App engine link
+
+https://backend-dot-sorak-c23-ps056.et.r.appspot.com/post/post-lTQn3Tp6Y
+
 ```json
 {
     "post": {
-        "post_id": "postGAq8cQHTF6",
-        "user_id": "user01",
-        "category": "aspirasi",
-        "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
-        "createdAt": "2023-06-14T04:35:47.000Z",
+        "post_id": "post-lTQn3Tp6Y",
+        "user_id": "user04",
+        "category": "pengaduhan",
+        "caption": "Tolong putung rokok sudah memenuhi taman ini.",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
+        "createdAt": "2023-06-16T03:24:06.000Z",
         "vote": 5
     }
 }
@@ -235,7 +283,26 @@ status: `200 OK`
 ---
 
 ## Mobile Development
-- Responsible for the UI/UX design
-- Making the frontend aplication
 
+### Design in Figma
+![Alt text](img/figma.png)
 
+<br>
+
+### Layouting Process
+![Alt text](img/layouting.png)
+
+<br>
+
+### Adapter for TimelineFragment's RecyclerView
+![Alt text](img/adapter.png)
+
+<br>
+
+### Developing the Kotlin's files
+![Alt text](img/kotlin.png)
+
+<br>
+
+### Deployment Files such as Retrofit, API Services, and Responses
+![Alt text](img/deploymentfiles.png)
