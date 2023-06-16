@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1008160719259",
+    "project_id": "sorak-75ef2",
+    "storage_bucket": "sorak-75ef2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008160719259:android:20eeef8853f44de14ce13e",
+        "android_client_info": {
+          "package_name": "com.example.soerak_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008160719259-8ma02i4vbcr92e8cn87hk120cq4ejbuq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhWOTJyS-wUtvFdVnQHrflg4Nya_rbxbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008160719259-8ma02i4vbcr92e8cn87hk120cq4ejbuq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
