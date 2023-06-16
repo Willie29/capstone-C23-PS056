@@ -2,8 +2,9 @@
 
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
+const dayjs = require('dayjs');
 
-const pathKey = path.resolve('../../serviceaccountkey.json');
+const pathKey = path.resolve('./serviceaccountkey.json');
 
 const gcs = new Storage({
   projectId: 'sorak-c23-ps056',
@@ -14,39 +15,36 @@ const bucketName = 'sorak-bucket';
 const bucket = gcs.bucket(bucketName);
 
 function getPublicUrl(filename) {
-  return 'https://storage.googleapis.com/' + bucketName + '/' + filename;
+  return `https://storage.googleapis.com/${bucketName}/${filename}`;
 }
 
 let ImgUpload = {};
 
-ImgUpload.uploadToGcs = (req, res, next) => {
-  if (!req.file) return next();
+ImgUpload.uploadToGcs = (attachment) => {
+  return new Promise((resolve, reject) => {
+    // if (!attachment) {
+    //   reject('No attachment provided');
+    //   return;
+    // }
 
-  import('dateformat').then((dateFormat) => {
-    const gcsname = dateFormat(new Date(), 'yyyymmdd-HHMMss');
+    const gcsname = dayjs().format('YYYYMMDD-HHmmss');
     const file = bucket.file(gcsname);
 
     const stream = file.createWriteStream({
       metadata: {
-        contentType: req.file.mimetype,
+        contentType: attachment.hapi.headers['content-type'],
       },
     });
 
     stream.on('error', (err) => {
-      req.file.cloudStorageError = err;
-      next(err);
+      reject(err);
     });
 
     stream.on('finish', () => {
-      req.file.cloudStorageObject = gcsname;
-      req.file.cloudStoragePublicUrl = getPublicUrl(gcsname);
-      next();
+      resolve(getPublicUrl(gcsname));
     });
 
-    stream.end(req.file.buffer);
-  }).catch((error) => {
-    console.error('Error importing dateformat:', error);
-    next(error);
+    stream.end(attachment._data);
   });
 };
 

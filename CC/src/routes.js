@@ -4,7 +4,16 @@ const generalRoutes = [
     {
         method: 'POST',
         path: '/post',
-        handler: addPost,
+        options: {
+            payload: {
+                maxBytes: 209715200,
+                output: 'stream',
+                parse: true,
+                multipart: true,
+                allow: ['multipart/form-data']      // <-- this fixed the media type error
+            },
+            handler: addPost,
+        }
     },
     {
         method: 'POST',

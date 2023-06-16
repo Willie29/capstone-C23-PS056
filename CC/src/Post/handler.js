@@ -2,19 +2,11 @@ const { nanoid } = require('nanoid');
 const dayjs = require('dayjs');
 const connection = require('../dbConnect');
 const imgUpload = require('./imgUp');
-const multer = require('multer');
-
-// Configure Multer
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
-});
 
 // Post
 const addPost = async (request, h) => {
-  const { category, caption } = request.payload;
+  const { user_id, category, caption } = request.payload;
+  const attachment = request.payload.attachment;
 
   if (!category || !caption || category.trim() === '' || caption.trim() === '') {
     const response = h.response({
@@ -31,48 +23,36 @@ const addPost = async (request, h) => {
 
   let imageUrl = '';
 
-  const uploadMiddleware = upload.single('attachment');
+  if (attachment) {
+    try {
+      imageUrl = await imgUpload.uploadToGcs(attachment);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return h.response({ message: 'Error uploading image', error: `${error}` }).code(500);
+    }
+  }
 
-  return new Promise((resolve, reject) => {
-    uploadMiddleware(request, h, async (err) => {
-      if (err) {
-        console.error('Error uploading file:', err);
-        return reject(h.response({ message: 'Error uploading file' }).code(500));
-      }
+  const newPost = {
+    post_id,
+    user_id,
+    category,
+    caption,
+    image_url: imageUrl,
+    createdAt,
+    vote,
+  };
 
-      const file = request.file;
-      if (file) {
-        try {
-          imageUrl = await imgUpload.uploadToGcs(file);
-        } catch (error) {
-          console.error('Error uploading image:', error);
-          return reject(h.response({ message: 'Error uploading image' }).code(500));
-        }
-      }
-
-      const newPost = {
-        post_id,
-        category,
-        caption,
-        image_url: imageUrl,
-        createdAt,
-        vote,
-      };
-
-      const query = 'INSERT INTO posts SET ?';
-      connection.query(query, newPost, (error, results) => {
-        if (error) {
-          console.error('Error adding post:', error);
-          return reject(h.response({ message: 'Error adding post' }).code(500));
-        }
-      });
-
-      console.log('Post added successfully');
-      resolve(h.response({ message: 'Post added successfully' }).code(200));
-    });
+  const query = 'INSERT INTO posts SET ?';
+  connection.query(query, newPost, (error, results) => {
+    if (error) {
+      console.error('Error adding post:', error);
+      return h.response({ message: 'Error adding post' }).code(500);
+    }
   });
-};
 
+  console.log('Post added successfully');
+  return h.response({ message: 'Post added successfully', post:{newPost} }).code(200);
+};
 
 // const addPost = (request, h) => {
 //   const { user_id, category, caption, } = request.payload;
