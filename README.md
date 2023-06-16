@@ -12,10 +12,19 @@
 ## Description
 We're planning to make an application full with people's aspiration for the government. 
 
-
+---
 ## Machine Learning
 - Gathering Datasets of Indonesian's badword
 - Making an NLP to detect a badword in the user's report.
+
+### Step by Step
+
+1. prepare data
+2. cleaning data
+3. parse data
+4. create model
+5. evaluate model
+6. export model
 
 <br>
 
@@ -29,14 +38,14 @@ We're planning to make an application full with people's aspiration for the gove
 
 ### <b>Cloud Storage</b>
 We're using the cloud storage to store the image from user's posts. We named it "sorak-bucket".
-![Alt text](img/image.png)
+![Alt text](img/bucket.png)
 
 ### <b>Cloud SQL</b>
 We're using MySQL 8.0 for the database and we named it "sorak_db" which include 3 tables such as "users", "posts", and "votes".
 ![Alt text](img/cloudSQL.png)
 
 ### <b>Authentication</b>
-nih fariel
+we failed to build this
 
 ### <b>Sorak - API</b>
 
@@ -229,12 +238,4 @@ status: `200 OK`
 - Responsible for the UI/UX design
 - Making the frontend aplication
 
-## Step by Step
 
-### Machine Learning
-1. prepare data
-2. cleaning data
-3. parse data
-4. create model
-5. evaluate model
-6. export model
