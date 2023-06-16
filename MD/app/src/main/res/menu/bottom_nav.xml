@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Timeline"
+        android:id="@+id/timeline"
+        android:icon="@drawable/home" />
+    <item android:title="Create Post"
+        android:id="@+id/create_post"
+        android:icon="@drawable/plus"/>
+    <item android:title="Profile"
+        android:id="@+id/profile"
+        android:icon="@drawable/profile_merah"/>
+</menu>
