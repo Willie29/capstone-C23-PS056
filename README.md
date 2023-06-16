@@ -28,3 +28,13 @@ We're planning to make an application full with people's aspiration for the gove
 ### Mobile Development
 - Responsible for the UI/UX design
 - Making the frontend aplication
+
+## Step by Step
+
+### Machine Learning
+1. prepare data
+2. cleaning data
+3. parse data
+4. create model
+5. evaluate model
+6. export model
