@@ -21,14 +21,28 @@ We're planning to make an application full with people's aspiration for the gove
 
 ---
 ## Cloud Computing
-Responsible for the backend of the app.
+- Responsible for the backend of the app.
+- Deploying the backend to the cloud using App Engine
+- Set up a bucket to store image
+- Set up databases for the app
+
+
+### <b>Cloud Storage</b>
+We're using the cloud storage to store the image from user's posts. We named it "sorak-bucket".
+![Alt text](img/image.png)
+
+### <b>Cloud SQL</b>
+We're using MySQL 8.0 for the database and we named it "sorak_db" which include 3 tables such as "users", "posts", and "votes".
+![Alt text](img/cloudSQL.png)
 
 ### <b>Authentication</b>
 nih fariel
 
 ### <b>Sorak - API</b>
 
-#### Endpoints 
+#### Deployment
+![Alt text](img/Appengine.png)
+#### Endpoints list
 
 <details>
  <summary>Add Post | <code>POST</code> <code><b>/post</b></code></summary>
@@ -45,9 +59,10 @@ nih fariel
 
 > | key                   | type     | data type | description |
 > | --------------------- | -------- | --------- | ----------- |
-> | category                  | required | string       | N/A         |
-> | caption                 | required | string    | N/A         |
-
+> | user_id                  | required | string       | N/A         |
+> | category                 | required | string    | N/A         |
+> | caption                  | required | string       | N/A         |
+> | attachment                 | required | .img, .png    | N/A         |
 </details>
 
 <details>
@@ -93,7 +108,7 @@ status: `200 OK`
         "user_id": "user01",
         "category": "aspirasi",
         "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": "aspirasi2023-06-14 11:35:47.com",
+        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
         "createdAt": "2023-06-14T04:35:47.000Z",
         "vote": 5
     },
@@ -102,7 +117,7 @@ status: `200 OK`
         "user_id": "user03",
         "category": "pengaduhan",
         "caption": "Pohon tumbang penyebab banjir ini masih dibiarkan dan tidak ada tindakan dari pemerintah",
-        "image_url": "pengaduhan2023-06-14 18:30:33.com",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112 ",
         "createdAt": "2023-06-14T11:30:33.000Z",
         "vote": 4
     },
@@ -111,7 +126,7 @@ status: `200 OK`
         "user_id": "user02",
         "category": "pengaduhan",
         "caption": "Ini jalan ga ada yang perbaikin udah 10 tahun",
-        "image_url": "pengaduhan2023-06-14 18:27:16.com",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
         "createdAt": "2023-06-14T11:27:16.000Z",
         "vote": 2
     }
@@ -146,7 +161,7 @@ status: `200 OK`
         "user_id": "user03",
         "category": "pengaduhan",
         "caption": "Pohon tumbang penyebab banjir ini masih dibiarkan dan tidak ada tindakan dari pemerintah",
-        "image_url": "pengaduhan2023-06-14 18:30:33.com",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032112 ",
         "createdAt": "2023-06-14T11:30:33.000Z",
         "vote": 4
     },
@@ -155,7 +170,7 @@ status: `200 OK`
         "user_id": "user02",
         "category": "pengaduhan",
         "caption": "Ini jalan ga ada yang perbaikin udah 10 tahun",
-        "image_url": "pengaduhan2023-06-14 18:27:16.com",
+        "image_url": "https://storage.googleapis.com/sorak-bucket/20230616-032406",
         "createdAt": "2023-06-14T11:27:16.000Z",
         "vote": 2
     },
@@ -164,7 +179,7 @@ status: `200 OK`
         "user_id": "user01",
         "category": "aspirasi",
         "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": "aspirasi2023-06-14 11:35:47.com",
+        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
         "createdAt": "2023-06-14T04:35:47.000Z",
         "vote": 5
     }
@@ -199,7 +214,7 @@ status: `200 OK`
         "user_id": "user01",
         "category": "aspirasi",
         "caption": "kalau ada yang ribet napa pilih yang gampang",
-        "image_url": "aspirasi2023-06-14 11:35:47.com",
+        "image_url": " https://storage.googleapis.com/sorak-bucket/20230616-032206",
         "createdAt": "2023-06-14T04:35:47.000Z",
         "vote": 5
     }
